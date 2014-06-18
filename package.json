@@ -61,6 +61,6 @@
   "author": "Tom MacWright <tom@macwright.org>",
   "license": "BSD",
   "dependencies": {
-    "point-in-polygon": "0.0.0"
+    "point-in-polygon": "https://github.com/jvrousseau/point-in-polygon/archive/v0.0.1.tar.gz"
   }
 }
