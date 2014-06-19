@@ -16,12 +16,11 @@ var leafletPip = {
 
         var results = [];
         layer.eachLayer(function(l) {
-            console.count("CHECKIT");
             if (first && results.length) return;
             // multipolygon
             var lls = [];
             if (l instanceof L.MultiPolygon) {
-                l.eachLayer(function(sub) { console.count("HELLO"); lls.push(getLls(sub)); });
+                l.eachLayer(function(sub) { lls.push(getLls(sub)); });
             } else if (l instanceof L.Polygon) {
                 lls.push(getLls(l));
             }
