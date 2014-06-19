@@ -6,6 +6,15 @@ function getLls(l) {
     return o;
 }
 
+function getMultiLls(l) {
+    /*var lls = l.getLatLngs(), o = [];
+    for (var j = 0; j < lls.length; j++) {
+        o[j] = [];
+        for (var i = 0; i < lls.length; i++) o[j][i] = [lls[i].lng, lls[i].lat];
+    }*/
+    return l.feature.geometry.coordinates[0];
+}
+
 var leafletPip = {
     bassackwards: false,
     pointInLayer: function(p, layer, first) {
@@ -19,7 +28,7 @@ var leafletPip = {
             // multipolygon
             var lls = [];
             if (l instanceof L.MultiPolygon) {
-                l.eachLayer(function(sub) { lls.push(getLls(sub)); });
+                lls = lls.concat(getMultiLls(l));
             } else if (l instanceof L.Polygon) {
                 lls.push(getLls(l));
             }
