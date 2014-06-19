@@ -7,11 +7,6 @@ function getLls(l) {
 }
 
 function getMultiLls(l) {
-    /*var lls = l.getLatLngs(), o = [];
-    for (var j = 0; j < lls.length; j++) {
-        o[j] = [];
-        for (var i = 0; i < lls.length; i++) o[j][i] = [lls[i].lng, lls[i].lat];
-    }*/
     return l.feature.geometry.coordinates[0];
 }
 
