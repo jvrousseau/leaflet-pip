@@ -1,6 +1,6 @@
 {
   "name": "leaflet-pip",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "point in polygon searches for leaflet",
   "main": "index.js",
   "scripts": {
