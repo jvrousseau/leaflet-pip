@@ -35,58 +35,49 @@ var leafletPip = {
 module.exports = leafletPip;
 
 },{"point-in-polygon":2}],2:[function(require,module,exports){
-module.exports = function (pt, poly) {
+module.exports = function (point, vs) {
     // ray-casting algorithm based on
     // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-
-    //var x = point[0], y = point[1];
-
-
-    var c = false,
-        i,
-        l = poly.length,
-        j = l - 1;
-    for (i = -1; ++i < l; j = i) {
-        if (((poly[i][1] <= pt[1] && pt[1] < poly[j][1]) || (poly[j][1] <= pt[1] && pt[1] < poly[i][1]))
-                && (pt[0] < (poly[j][0] - poly[i][0]) * (pt[1] - poly[i][1]) / (poly[j][1] - poly[i][1]) + poly[i][0])) {
-            c = !c;
-        }
-    }
-    return c;
-
-    /*var inside = false;
+    
+    var x = point[0], y = point[1];
+    
+    var inside = false;
     for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
         var xi = vs[i][0], yi = vs[i][1];
         var xj = vs[j][0], yj = vs[j][1];
-
+        
         var intersect = ((yi > y) != (yj > y))
             && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
         if (intersect) inside = !inside;
     }
-
-    return inside;*/
+    
+    return inside;
 };
 
 },{}],3:[function(require,module,exports){
 var leafletPip = require('../'),
-    map = L.map('map').setView([37.8, -96], 4),
-    gjLayer = L.geoJson(statesData);
+    map = L.map('map').setView([37.8, -88], 7),
+    gjLayer = L.geoJson(broken);
 
 L.tileLayer('http://a.tiles.mapbox.com/v3/tmcw.map-l1m85h7s/{z}/{x}/{y}.png')
     .addTo(map);
 
+L.marker([38.08268954483802, -89.36279296875]).addTo(map)
+            .bindPopup("Click this poly and PIP will return the layer clicked")
+
+L.marker([37.37888785004524, -88.06640625]).addTo(map)
+    .bindPopup("Click on this poly and PIP will (erroneously) not return the layer clicked")
+
 gjLayer.addTo(map);
 
-document.getElementById('me').onclick = function() {
-    navigator.geolocation.getCurrentPosition(function(pos) {
-        var res = leafletPip.pointInLayer(
-            [pos.coords.longitude, pos.coords.latitude], gjLayer);
-        if (res.length) {
-            document.getElementById('me').innerHTML = res[0].feature.properties.name;
-        } else {
-            document.getElementById('me').innerHTML = 'You aren\'t in America';
-        }
-    });
-};
+gjLayer.on('click', function (e) {
+    console.log(e.latlng);
+    var res = leafletPip.pointInLayer([e.latlng.lng, e.latlng.lat], gjLayer);
+    if (res.length == 0) {
+        console.error("uh oh");
+    } else {
+        console.log(res);
+    }
+});
 
 },{"../":1}]},{},[3])
