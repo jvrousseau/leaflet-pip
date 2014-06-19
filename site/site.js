@@ -15,7 +15,7 @@ gjLayer.addTo(map);
 
 gjLayer.on('click', function (e) {
     console.log(e.latlng);
-    var res = leafletPip.pointInLayer([e.latlng.lng, e.latlng.lat], gjLayer);
+    var res = leafletPip.pointInLayer([e.latlng.lng, e.latlng.lat], gjLayer, false);
     if (res.length == 0) {
         console.error("uh oh");
     } else {

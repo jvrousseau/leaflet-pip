@@ -16,11 +16,12 @@ var leafletPip = {
 
         var results = [];
         layer.eachLayer(function(l) {
+            console.count("CHECKIT");
             if (first && results.length) return;
             // multipolygon
             var lls = [];
             if (l instanceof L.MultiPolygon) {
-                l.eachLayer(function(sub) { lls.push(getLls(sub)); });
+                l.eachLayer(function(sub) { console.count("HELLO"); lls.push(getLls(sub)); });
             } else if (l instanceof L.Polygon) {
                 lls.push(getLls(l));
             }
@@ -35,36 +36,23 @@ var leafletPip = {
 module.exports = leafletPip;
 
 },{"point-in-polygon":2}],2:[function(_dereq_,module,exports){
-module.exports = function (pt, poly) {
+module.exports = function (point, vs) {
     // ray-casting algorithm based on
     // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-
-    //var x = point[0], y = point[1];
-
-
-    var c = false,
-        i,
-        l = poly.length,
-        j = l - 1;
-    for (i = -1; ++i < l; j = i) {
-        if (((poly[i][1] <= pt[1] && pt[1] < poly[j][1]) || (poly[j][1] <= pt[1] && pt[1] < poly[i][1]))
-                && (pt[0] < (poly[j][0] - poly[i][0]) * (pt[1] - poly[i][1]) / (poly[j][1] - poly[i][1]) + poly[i][0])) {
-            c = !c;
-        }
-    }
-    return c;
-
-    /*var inside = false;
+    
+    var x = point[0], y = point[1];
+    
+    var inside = false;
     for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
         var xi = vs[i][0], yi = vs[i][1];
         var xj = vs[j][0], yj = vs[j][1];
-
+        
         var intersect = ((yi > y) != (yj > y))
             && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
         if (intersect) inside = !inside;
     }
-
-    return inside;*/
+    
+    return inside;
 };
 
 },{}]},{},[1])
